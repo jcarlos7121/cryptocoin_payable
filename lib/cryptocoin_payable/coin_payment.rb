@@ -84,6 +84,10 @@ module CryptocoinPayable
       adapter.convert_main_to_subunit(currency_amount_due / coin_conversion.to_f).ceil
     end
 
+    def calculate_original_amount_due
+      adapter.convert_main_to_subunit(original_price / coin_conversion.to_f).ceil
+    end
+
     def coin_conversion
       @coin_conversion ||= CurrencyConversion.where(coin_type: coin_type).last.price
     end
@@ -110,6 +114,7 @@ module CryptocoinPayable
     def populate_currency_and_amount_due
       self.currency ||= CryptocoinPayable.configuration.currency
       self.coin_amount_due = calculate_coin_amount_due
+      self.original_coin_amount_due = calculate_original_amount_due
       self.coin_conversion = coin_conversion
     end
 
