@@ -72,7 +72,6 @@ module CryptocoinPayable
         }
       )
       payment.reload
-      payment.update_coin_amount_due
     end
 
     def update_via_many_insert(payment, transactions)
@@ -83,13 +82,12 @@ module CryptocoinPayable
         else
           tx[:coin_conversion] = payment.coin_conversion
           payment.transactions.create!(tx)
-          payment.update_coin_amount_due
         end
       end
     end
 
     def update_payment_state(payment)
-      if payment.transactions.sum(&:estimated_value) >= payment.coin_amount_due
+      if payment.reload.transactions.sum(&:estimated_value) >= payment.reload.coin_amount_due
         payment.pay
         payment.confirm if payment.transactions_confirmed?
       elsif payment.currency_amount_paid > 0
