@@ -89,7 +89,7 @@ module CryptocoinPayable
     end
 
     def update_payment_state(payment)
-      if payment.currency_amount_paid >= payment.price
+      if payment.transactions.sum(&:estimated_value) >= payment.coin_amount_due
         payment.pay
         payment.confirm if payment.transactions_confirmed?
       elsif payment.currency_amount_paid > 0
