@@ -8,7 +8,7 @@ require 'cryptocoin_payable/commands/payment_processor'
 module ActiveRecord
   class Base
     def self.has_coin_payments # rubocop:disable Naming/PredicateName
-      has_many :coin_payments, class_name: 'CryptocoinPayable::CoinPayment', as: 'payable'
+      has_many :coin_payments, class_name: 'CryptocoinPayable::CoinPayment', as: 'payable', dependent: :destroy
     end
   end
 end
