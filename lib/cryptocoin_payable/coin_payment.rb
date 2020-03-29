@@ -4,6 +4,7 @@ require 'state_machines-activerecord'
 module CryptocoinPayable
   class CoinPayment < ActiveRecord::Base
     belongs_to :payable, polymorphic: true
+    belongs_to :user
     has_many :transactions, class_name: 'CryptocoinPayable::CoinPaymentTransaction'
 
     validates :reason, presence: true
