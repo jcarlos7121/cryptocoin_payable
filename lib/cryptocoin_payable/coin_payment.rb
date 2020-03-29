@@ -137,6 +137,10 @@ module CryptocoinPayable
     def notify_payable_confirmed
       notify_payable_event(:confirmed)
     end
+    
+    def vendor_post_purchase_url
+      payable.try(:vendor_post_purchase_url)
+    end
 
     def notify_payable_expired
       notify_payable_event(:expired)
