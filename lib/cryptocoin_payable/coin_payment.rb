@@ -113,6 +113,10 @@ module CryptocoinPayable
     def vendor_post_purchase_url
       payable.try(:vendor_post_purchase_url)
     end
+    
+    def product_order_url
+      "/products/#{payable.try(:product_code)}/orders/#{id}"
+    end
 
     private
 
