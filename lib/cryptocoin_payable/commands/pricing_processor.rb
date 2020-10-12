@@ -21,12 +21,6 @@ module CryptocoinPayable
           )
         ]
       end.to_h
-
-      # Loop through all unpaid payments and update them with the new price if
-      # it has been 30 mins since they have been updated.
-      CoinPayment.unpaid.stale.find_each do |payment|
-        payment.update_coin_amount_due(rate: rates[payment.coin_type.to_sym].price)
-      end
     end
 
     def delete_currency_conversions(time_ago)

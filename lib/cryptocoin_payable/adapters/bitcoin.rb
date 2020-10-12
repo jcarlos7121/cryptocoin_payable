@@ -68,7 +68,7 @@ module CryptocoinPayable
       end
 
       def fetch_block_cypher_transactions(address)
-        url = "https://api.blockcypher.com/v1/btc/main/addrs/#{address}/full?token=b3abdf91878a4edeaee9a991a7d454e1"
+        url = "https://api.blockcypher.com/v1/btc/main/addrs/#{address}/full?token=b3abdf91878a4edeaee9a991a7d454e1&txlimit=100"
         parse_block_cypher_transactions(get_request(url).body, address)
       end
 

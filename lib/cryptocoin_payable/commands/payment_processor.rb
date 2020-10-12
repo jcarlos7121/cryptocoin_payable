@@ -11,7 +11,7 @@ module CryptocoinPayable
     end
 
     def perform
-      CoinPayment.unconfirmed.find_each do |payment|
+      CoinPayment.where(state: ['pending', 'partial_payment', 'paid_in_full']).find_each do |payment|
         # Check for completed payment first, in case it's 0 and we don't need to
         # make an API call.
         update_payment_state(payment)
@@ -72,7 +72,6 @@ module CryptocoinPayable
         }
       )
       payment.reload
-      payment.update_coin_amount_due
     end
 
     def update_via_many_insert(payment, transactions)
@@ -83,13 +82,12 @@ module CryptocoinPayable
         else
           tx[:coin_conversion] = payment.coin_conversion
           payment.transactions.create!(tx)
-          payment.update_coin_amount_due
         end
       end
     end
 
     def update_payment_state(payment)
-      if payment.currency_amount_paid >= payment.price
+      if payment.reload.transactions.sum(&:estimated_value) >= payment.reload.coin_amount_due
         payment.pay
         payment.confirm if payment.transactions_confirmed?
       elsif payment.currency_amount_paid > 0
