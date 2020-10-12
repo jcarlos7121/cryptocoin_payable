@@ -91,6 +91,8 @@ module CryptocoinPayable
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = uri.scheme == 'https'
         request = Net::HTTP::Get.new(uri.request_uri)
+        request['Content-Type'] = 'application/json'
+        request['X-API-Key'] = '33cd55c0835c579992ccb02a1aa5420318cac0aa'
         result = http.request(request)
 
         request_delay = CryptocoinPayable.configuration.request_delay
