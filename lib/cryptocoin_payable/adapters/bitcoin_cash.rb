@@ -11,7 +11,12 @@ module CryptocoinPayable
         raise NetworkNotSupported if CryptocoinPayable.configuration.testnet
 
         url = "https://api.cryptoapis.io/v1/bc/bch/mainnet/address/#{legacy_address(address)}/transactions?index=0&limit=100"
-        parse_block_explorer_transactions(get_request(url).body, address)
+        confirmed = parse_block_explorer_transactions(get_request(url).body, address)
+
+        second_url = "https://api.cryptoapis.io/v1/bc/bch/mainnet/address/#{legacy_address(address)}/unconfirmed-transactions?index=0&limit=100"
+        unconfirmed = parse_block_explorer_transactions(get_request(second_url).body, address)
+
+        confirmed.concat unconfirmed
       end
 
       def create_address(id)
