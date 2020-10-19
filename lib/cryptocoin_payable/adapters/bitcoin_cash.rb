@@ -31,7 +31,7 @@ module CryptocoinPayable
           block_hash: transaction['blockhash'],
           block_time: parse_time(transaction['blocktime']),
           estimated_time: parse_time(transaction['time']),
-          estimated_value: parse_total_tx_value_block_cypher(transaction['txins'], address),
+          estimated_value: parse_total_tx_value_block_cypher(transaction['txouts'], address),
           confirmations: transaction['confirmations'].to_i
         }
       end
