@@ -81,7 +81,7 @@ module CryptocoinPayable
       end
 
       def parse_time(time)
-        time.nil? ? nil : Time.iso8601(time)
+        time.nil? ? nil : Time.parse(time)
       end
 
       private
