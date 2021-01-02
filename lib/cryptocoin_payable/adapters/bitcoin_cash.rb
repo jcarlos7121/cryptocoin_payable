@@ -43,7 +43,7 @@ module CryptocoinPayable
 
       def parse_total_tx_value_block_cypher(output_transactions, address)
         output_transactions
-          .map { |out| out['addresses'].join.eql?(address) ? (out['amount'].to_f * 100_000_000).to_i : 0 }
+          .map { |out| out['addresses'].join.eql?(address) ? (out['amount'].to_f * 100_000_000).ceil.to_i : 0 }
           .inject(:+) || 0
       end
 
